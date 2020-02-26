@@ -71,3 +71,81 @@
 </body>
 
 </html>
+<script>
+    /*  请求地址：/admin/user / detail
+     请求方式：get
+     请求参数：无
+     返回数据：
+     名称   	  类型  	说明
+     username	string	用户名称
+     nickname	string	用户昵称
+     email  	string	用户邮箱
+     userPic 	string	用户图片地址
+     password	string	用户密码 */
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "http://localhost:8080/api/v1/admin/user/detail",
+            // 添加请求头,否则出现403,相当于拿好身份证准备上车
+            headers: {
+                Authorization: localStorage.getItem('token')
+            },
+
+            success: function (response) {
+                console.log(response);
+                // 把每个框的内容都更改为服务器发送过来的数据
+                // $('.form-control username').val(response.data.nickname)
+                // $('.form-control nickname').val(response.data.username)
+                // $('.form-control email').val(response.data.email)
+                // $('.user_pic').attr({
+                //     scr: response.data.userPic
+                // })
+                // $('.form-control password').val(response.data.password)
+                // for (let key in response.data) {
+                //     $('.form-control.' + key).val(response.data[key])
+                // }
+                $('.user_pic').attr({
+                    src: response.data.userPic
+                })
+            }
+        });
+        // 注册改变表单事件
+        $('.userPic').change(function () {
+            // 创建一个form表单对象
+            var file = this.files[0]
+            // fd.append('userPic', this.files[0])
+            let url = URL.createObjectURL(file);
+            $('.user_pic').attr(src, url)
+
+        })
+    })
+    $('.btn-edit').submit(function (e) {
+        e.preventDefault()
+        // console.log(1);
+        const content = $('.password').val().trim()
+        // let fd = new FormData()
+
+        $.ajax({
+            type: "post",
+            url: 'http://localhost:8080/api/v1/admin/user/detail',
+            headers: {
+                Authorization: localStorage.getItem('token')
+            },
+            data: new FormData(this),
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response.code === 200) {
+                    alert('注册成功')
+                    parent.window.location.reload()
+                }
+
+            }
+        });
+
+
+    })
+
+</script>
