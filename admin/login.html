@@ -71,6 +71,7 @@
     const pwd = $('.input_pass').val().trim()
     //  非空判断
     if (inp === '' || pwd === '') {
+      // 调用复制过来的代码
       $('.modal').modal()
       $('.modal-body p').html('请输入内容哦!')
     } else {
