@@ -38,6 +38,26 @@
       </form>
     </div>
   </div>
+  <!-- Bootstrap复制过来的 -->
+  <div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">温馨提示</h4>
+        </div>
+        <div class="modal-body">
+          <p>&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <!-- 蓝色按钮去掉 -->
+          <!-- <button type="button" class="btn btn-primary"></button> -->
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 </body>
 
@@ -51,7 +71,8 @@
     const pwd = $('.input_pass').val().trim()
     //  非空判断
     if (inp === '' || pwd === '') {
-      alert('请输入内容!')
+      $('.modal').modal()
+      $('.modal-body p').html('请输入内容哦!')
     } else {
       $.ajax({
         type: "post",
@@ -63,10 +84,23 @@
         dataType: "json",
         success: function (response) {
           console.log(response);
+          // 判断用户输入的对不对
+          if (response.code === 200) {
+            // 以后要获取这个数据,所以要把这个token保存到本地
+            localStorage.setItem('token', response.token)
+            location.href = "./index.html"
+          } else {
+            // alert('同户名或密码错误')
+            $('.modal').modal()
+            // 让提示框内容跟返回的提示一样
+            // $('#myModal').modal(options)
+            $('.modal-body p').html(response.msg)
+            $('.input_txt').val('')
+            $('.input_pass').val('')
+          }
         }
       });
-      $('.input_txt').val('')
-      $('.input_pass').val('')
+
     }
   })
 
