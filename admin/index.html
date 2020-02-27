@@ -44,7 +44,7 @@
         <!-- 顶部栏 -->
         <div class="header_bar">
             <div class="user_center_link">
-                <a href="./user.html" target="main_frame">个人中心</a>
+                <a href="./user.html" target="main_frame"><span>个人中心</span></a>
                 <img src="images/2.jpg" alt="person">
                 <a href="javascript:void(0)" class="logout"><i class="iconfont icon-tuichu"></i> 退出</a>
             </div>
@@ -65,41 +65,40 @@
         userPic 	string	用户图片地址 */
         //那么项目的基地址就是:http://localhost:8080/api/v1
 
+        // $(function () {
+        //     $.ajax({
+        //         type: "get",
+        //         url: "http://localhost:8080/api/v1/admin/user/info",
+        //         /*    jqajax添加请求头
+        //               除了登录接口,其他任何的接口在调用时候都要带上token值来认证,并且决定是否授权(否则返回403禁止访问)
+        //               这个token值再刚刚登录页已经保存到本地了,现在只需要获取既可以  */
+        //         headers: {
+        //             Authorization: localStorage.getItem('token')
+        //         },
+        //         dataType: "json",
+        //         success: function (response) {
+        //             console.log(response);
+        //             if (response.code === 200) {
 
-        $(function () {
-            $.ajax({
-                type: "get",
-                url: "http://localhost:8080/api/v1/admin/user/info",
-                /*    jqajax添加请求头
-                      除了登录接口,其他任何的接口在调用时候都要带上token值来认证,并且决定是否授权(否则返回403禁止访问)
-                      这个token值再刚刚登录页已经保存到本地了,现在只需要获取既可以  */
-                headers: {
-                    Authorization: localStorage.getItem('token')
-                },
-                dataType: "json",
-                success: function (response) {
-                    console.log(response);
-                    if (response.code === 200) {
-
-                        $('.user_info img , .user_center_link img ').attr({
-                            // 获取到图片
-                            src: response.data.userPic
-                        })
-                        // 获取到名字并渲染到页面
-                        $('.user_info strong ').html(response.data.nickname)
-                    }
-                }
-            });
-        })
-        // O了
-        $('.logout').click(function () {
-            // 用户退出删除token
-            localStorage.removeItem('token')
-            location.href = "./login.html"
-        })
-        $('#user a, .user_center_link a').click(function () {
-            location.href = "./user.html"
-        })
+        //                 $('.user_info img , .user_center_link img ').attr({
+        //                     // 获取到图片
+        //                     src: response.data.userPic
+        //                 })
+        //                 // 获取到名字并渲染到页面
+        //                 $('.user_info strong ').html(response.data.nickname)
+        //             }
+        //         }
+        //     });
+        // })
+        // // O了
+        // $('.logout').click(function () {
+        //     // 用户退出删除token
+        //     localStorage.removeItem('token')
+        //     location.href = "./login.html"
+        // })
+        // $('#user a, .user_center_link span ').click(function () {
+        //     location.href = "./user.html"
+        // })
 
     </script>
 </body>
