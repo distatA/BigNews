@@ -15,6 +15,8 @@
   <script src="./libs/jquery-1.12.4.min.js"></script>
   <!-- 引入bootstrap的js文件 -->
   <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
+  <script src="./js/http.js"></script>
+  <script src="./nprogress/nprogress.js"></script>
 </head>
 
 <body>
@@ -132,11 +134,12 @@
       } else {
         $.ajax({
           type: "post",
+
+          url: BigNew.user_login,
           data: {
             username: inp,
             password: psw
           },
-          url: 'http://localhost:8080/api/v1/admin/user/login',
           success: function (response) {
             console.log(response);
             if (response.code === 200) {
@@ -156,5 +159,13 @@
     })
   })
 
+  $.ajaxSetup({
+    beforeSend: function () {
+      NProgress.start();
+    },
+    complete: function () {
+      NProgress.done();
+    }
+  })
 
 </script>

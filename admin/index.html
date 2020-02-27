@@ -13,6 +13,7 @@
     <script src="./libs/jquery-1.12.4.min.js"></script>
     <!-- 导入bootstrap的js文件 -->
     <script src="./libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/http.js"></script>
 </head>
 
 <body>
@@ -99,6 +100,43 @@
         // $('#user a, .user_center_link span ').click(function () {
         //     location.href = "./user.html"
         // })
+
+        $(function () {
+            // 用户信息功能       通过ajax获取用户信息
+            /* 获取用户信息
+            请求地址：/admin/user/info
+            请求方式：get
+            请求参数：无
+            返回数据：
+            nickname	string	用户昵称
+            userPic 	string	用户图片地址 */
+            //那么项目的基地址就是:http://localhost:8080/api/v1
+            $.ajax({
+                type: "get",
+                url: BigNew.user_info,
+                dataType: "json",
+                // 设置求球头,获取token值识别
+                headers: {
+                    Authorization: localStorage.getItem('token')
+                },
+                success: function (response) {
+                    console.log(response);
+                    const nickname = response.data.nickname
+                    const userPic = response.data.userPic
+                    // 把获取   数据的图片渲染上去
+                    $('.user_info img , .user_center_link img').attr({
+                        src: userPic
+                    })
+                    $('.user_info strong').html(nickname)
+                }
+            });
+            $('.logout').click(function () {
+                // 返回登录页
+                location.href = './login.html'
+                // 退出时,为安全性,删除token值
+                localStorage.removeItem('token')
+            })
+        })
 
     </script>
 </body>
